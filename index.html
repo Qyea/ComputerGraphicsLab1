@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>color-models</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+        <link rel="apple-touch-icon" sizes="180x180" href="E://qyea//summerCode//JapenWeb//img//favicon//apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    </head>
+    <body>
+    <!-- app start -->
+    <div class="wrapper">
+        <!-- model start -->
+        <section class="model">
+            <div class="model-wrap">
+                <h2 class="model__title">Color models</h2>
+                <div class="preview"> 
+                    <div class="color-preview"></div>                
+                </div>
+                
+                <div class="model__cards">
+                    <div class="model__card">
+                        <!-- COLOR MODEL CMYK -->
+                        <h3 class="model__card-title">CMYK</h3>
+                            <div class="color-inputs">
+                                <input class="color-input" type="text" id="cmyk" placeholder="0, 100, 100, 0">
+                            </div>
+                        <a href=" https://ru.wikipedia.org/wiki/CMYK" class="model__card-more">LEARN MORE</a>
+                        <!-- COLOR MODEL CMYK -->
+                    </div>
+                    <div class="model__card">
+                        <!-- COLOR MODEL RGB -->
+                        <h3 class="model__card-title">RGB</h3>
+                            <div class="color-inputs">
+                                <input class="color-input" type="text" id="rgb" placeholder="255, 0, 0">
+                            </div>
+                        <a href="https://ru.wikipedia.org/wiki/RGB" class="model__card-more">LEARN MORE</a>
+                          <!-- COLOR MODEL RGB -->
+                    </div>
+                    <div class="model__card">
+                        <!-- COLOR MODEL HLS -->
+                        <h3 class="model__card-title">HLS</h3>
+                            <div class="color-inputs">
+                                <input class="color-input" type="text" id="hsl" placeholder="0, 100, 50">
+                            </div>
+                        <a href="https://ru.wikipedia.org/wiki/HLS" class="model__card-more">LEARN MORE</a>
+                        <!-- COLOR MODEL HLS -->
+                    </div>
+                    
+                </div>
+                <div class="sliders">
+                    <label class="model-label" for="red">Red</label>
+                    <input type="range" id="red" min="0" max="255">
+                    <label class="model-label" for="green">Green</label>
+                    <input type="range" id="green" min="0" max="255">
+                    <label class="model-label" for="blue">Blue</label>
+                    <input type="range" id="blue" min="0" max="255">
+                </div>
+                <div>
+                    <div class="color-pick">
+                        <div class="picker-title">Pick your color!</div>
+                        <input type="color" id="color-picker">
+                    </div>
+                </div>
+            </div>
+        </section>
+          <!-- model end -->
+    </div>
+    <script src="js/script.js"></script>
+        <!-- app end -->
+    </body>
+</html>
