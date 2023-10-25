@@ -7,6 +7,15 @@ window.addEventListener('DOMContentLoaded', function() {
     const greenSlider = document.getElementById('green');
     const blueSlider = document.getElementById('blue');
 
+    const cyanSlider = document.getElementById('cyan');
+    const magentaSlider = document.getElementById('magenta');
+    const yellowSlider = document.getElementById('yellow');
+    const keySlider = document.getElementById('key');
+
+    const hueSlider = document.getElementById('hue');
+    const saturationSlider = document.getElementById('saturation');
+    const lightnessSlider = document.getElementById('lightness');
+
     const colorInput = document.getElementById('color-picker');
 
     function updateColor() {
@@ -15,16 +24,106 @@ window.addEventListener('DOMContentLoaded', function() {
         const blue = blueSlider.value;
 
         const rgbColor = `rgb(${red}, ${green}, ${blue})`;
+
         const cmykColor = rgbToCmyk(red, green, blue);
         const hslColor = rgbToHsl(red, green, blue);
 
         const colorPreview = document.querySelector('.color-preview');
-        colorPreview.style.backgroundColor = rgbColor;
+        colorPreview.style.backgroundColor = rgbColor;        
 
         rgbInput.value = rgbColor;
         cmykInput.value = cmykColor;
         hslInput.value = hslColor;
         colorInput.value = rgbToHex(rgbColor);
+
+        const values = hslColor.substring(4, hslColor.length - 1).split(',');
+
+        const hue = parseInt(values[0].trim());
+        const saturation = parseInt(values[1].trim());
+        const lightness = parseInt(values[2].trim());
+
+        hueSlider.value = hue;
+        saturationSlider.value = saturation;
+        lightnessSlider.value = lightness;
+    }
+    function updateColorCMYK() {
+        const cyan = cyanSlider.value;
+        const magenta = magentaSlider.value;
+        const yellow = yellowSlider.value;
+        const key = keySlider.value;
+
+        const cmykColor = `cmyk(${cyan}, ${magenta}, ${yellow}, ${key})`;
+        const rgbColor = cmykToRgb(cmykColor);
+
+        const val = rgbColor.substring(4, rgbColor.length - 1).split(',');
+
+        const red = parseInt(val[0].trim());
+        const green = parseInt(val[1].trim());
+        const blue = parseInt(val[2].trim());
+
+        const hslColor = rgbToHsl(red, green, blue);
+
+        const colorPreview = document.querySelector('.color-preview');
+        colorPreview.style.backgroundColor = rgbColor;        
+
+        rgbInput.value = rgbColor;
+        cmykInput.value = cmykColor;
+        hslInput.value = hslColor;
+        colorInput.value = rgbToHex(rgbColor);
+
+        redSlider.value = red;
+        greenSlider.value = green;
+        blueSlider.value = blue;
+
+        const values = hslColor.substring(4, hslColor.length - 1).split(',');
+
+        const hue = parseInt(values[0].trim());
+        const saturation = parseInt(values[1].trim());
+        const lightness = parseInt(values[2].trim());
+
+        hueSlider.value = hue;
+        saturationSlider.value = saturation;
+        lightnessSlider.value = lightness;
+    }
+    function updateColorHLS() {
+        const hue = hueSlider.value;
+        const saturation = saturationSlider.value;
+        const lightness = lightnessSlider.value;
+
+        const hslColor = `hsl(${hue}, ${saturation}, ${lightness})`;
+        const rgbColor = hlsToRgb(hslColor);
+
+        const val = rgbColor.substring(4, rgbColor.length - 1).split(',');
+
+        const red = parseInt(val[0].trim());
+        const green = parseInt(val[1].trim());
+        const blue = parseInt(val[2].trim());
+
+        const cmykColor = rgbToCmyk(red, green, blue);
+
+        const colorPreview = document.querySelector('.color-preview');
+        colorPreview.style.backgroundColor = rgbColor;        
+
+        rgbInput.value = rgbColor;
+        cmykInput.value = cmykColor;
+        hslInput.value = hslColor;
+        colorInput.value = rgbToHex(rgbColor);
+
+        redSlider.value = red;
+        greenSlider.value = green;
+        blueSlider.value = blue;
+
+        const values = cmykColor.substring(5, cmykColor.length - 1).split(',');
+
+        const cyan = parseInt(values[0].trim());
+        const magenta = parseInt(values[1].trim());
+        const yellow = parseInt(values[2].trim());
+        const key =parseInt(values[3].trim());
+       
+        cyanSlider.value = cyan;
+        magentaSlider.value = magenta;
+        yellowSlider.value = yellow;
+        keySlider.value = key;
     }
 
     function convertHexToRGB(hex) {
@@ -64,6 +163,11 @@ window.addEventListener('DOMContentLoaded', function() {
         const c = (1 - r - k) / (1 - k);
         const m = (1 - g - k) / (1 - k);
         const y = (1 - b - k) / (1 - k);
+
+        cyanSlider.value = Math.round(c * 100);
+        magentaSlider.value = Math.round(m * 100);
+        yellowSlider.value = Math.round(y * 100);
+        keySlider.value = Math.round(k * 100);
 
         return `cmyk(${Math.round(c * 100)}, ${Math.round(m * 100)}, ${Math.round(y * 100)}, ${Math.round(k * 100)})`;
     }
@@ -117,10 +221,16 @@ window.addEventListener('DOMContentLoaded', function() {
         const yellow = parseInt(values[2].trim());
         const key = parseInt(values[3].trim());
 
+        console.log(cyan, magenta, yellow, key);
+
         const denominator = key/100;
         const r = 255 * (1 - cyan/100) * (1 - denominator);
         const g = 255 * (1 - magenta/100) * (1 - denominator);
         const b = 255 * (1 - yellow/100) * (1 - denominator);
+        
+        redSlider.value = Math.round(r);
+        greenSlider.value = Math.round(g);
+        blueSlider.value = Math.round(b);
 
         return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
     }
@@ -137,7 +247,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 : l === g
                     ? 2 + (b - r) / s
                     : 4 + (r - g) / s
-            : 0
+            : 0  
         return `hsl(${Math.round(60 * h < 0 ? 60 * h + 360 : 60 * h)}, ${Math.round(100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0))}, ${Math.round((100 * (2 * l - s)) / 2)})`
     }
 
@@ -167,9 +277,11 @@ window.addEventListener('DOMContentLoaded', function() {
         updateColorByInputs();
     });
 
-    function updateColorByInputCYMK() {
+    function updateColorByInputCMYK() {
         const cmykColor = cmykInput.value;
+        console.log(cmykColor);
         const rgbColor = cmykToRgb(cmykColor);
+        console.log(rgbColor);
 
         rgbInput.value = rgbColor;      
         updateColorByInputs();
@@ -187,8 +299,17 @@ window.addEventListener('DOMContentLoaded', function() {
     greenSlider.addEventListener('input', updateColor);
     blueSlider.addEventListener('input', updateColor);
 
+    cyanSlider.addEventListener('input', updateColorCMYK);
+    magentaSlider.addEventListener('input', updateColorCMYK);
+    yellowSlider.addEventListener('input', updateColorCMYK);
+    keySlider.addEventListener('input', updateColorCMYK);
+
+    hueSlider.addEventListener('input', updateColorHLS);
+    lightnessSlider.addEventListener('input', updateColorHLS);
+    saturationSlider.addEventListener('input', updateColorHLS);
+
     rgbInput.addEventListener('input', updateColorByInputs);
-    cmykInput.addEventListener('input', updateColorByInputCYMK);
+    cmykInput.addEventListener('input', updateColorByInputCMYK);
     hslInput.addEventListener('input', updateColorByInputHSL);
 
     updateColor();
